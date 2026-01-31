@@ -1,33 +1,77 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("loginForm");
-  if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+let books = [
+  { title: "The Great Gatsby", author: "F. Scott Fitzgerald", isbn: "9780743273565", year: "1925", status: "Available" },
+  { title: "1984", author: "George Orwell", isbn: "9780451524935", year: "1949", status: "Available" },
+  { title: "To Kill a Mockingbird", author: "Harper Lee", isbn: "9780061120084", year: "1960", status: "Borrowed" },
+  { title: "Pride and Prejudice", author: "Jane Austen", isbn: "9781503290563", year: "1813", status: "Available" },
+  { title: "Moby-Dick", author: "Herman Melville", isbn: "9781503280786", year: "1851", status: "Available" }
+];
 
-      if (username === "admin" && password === "1234") {
-        window.location.href = "dashboard.html";
-      } else {
-        alert("Invalid credentials! Try admin / 1234");
-      }
-    });
-  }
+function updateSummary() {
+  document.getElementById("total").textContent = `Total: ${books.length}`;
+  document.getElementById("available").textContent = `Available: ${books.filter(b => b.status === "Available").length}`;
+  document.getElementById("borrowed").textContent = `Borrowed: ${books.filter(b => b.status === "Borrowed").length}`;
+}
 
-  const bookForm = document.getElementById("bookForm");
-  const bookList = document.getElementById("bookList");
+function renderBooks() {
+  const list = document.getElementById("bookList");
+  list.innerHTML = "";
+  const filter = document.getElementById("filter").value;
+  const search = document.getElementById("searchInput").value.toLowerCase();
 
-  if (bookForm) {
-    bookForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const title = document.getElementById("bookTitle").value;
-      const author = document.getElementById("bookAuthor").value;
+  books.forEach((book, index) => {
+    if ((filter === "available" && book.status !== "Available") ||
+        (filter === "borrowed" && book.status !== "Borrowed")) return;
 
-      const li = document.createElement("li");
-      li.textContent = `${title} by ${author}`;
-      bookList.appendChild(li);
+    if (!book.title.toLowerCase().includes(search) &&
+        !book.author.toLowerCase().includes(search) &&
+        !book.isbn.toLowerCase().includes(search)) return;
 
-      bookForm.reset();
-    });
-  }
-});
+    const card = document.createElement("div");
+    card.className = "book-card";
+    card.innerHTML = `
+      <span><strong>Title:</strong> ${book.title}</span>
+      <span><strong>Author:</strong> ${book.author}</span>
+      <span><strong>ISBN:</strong> ${book.isbn}</span>
+      <span><strong>Year:</strong> ${book.year}</span>
+      <span><strong>Status:</strong> ${book.status}</span>
+    `;
+
+    const borrowBtn = document.createElement("button");
+    borrowBtn.textContent = "Borrow";
+    borrowBtn.className = "borrow";
+    borrowBtn.onclick = () => {
+      book.status = "Borrowed";
+      renderBooks();
+      updateSummary();
+    };
+
+    const returnBtn = document.createElement("button");
+    returnBtn.textContent = "Return";
+    returnBtn.className = "return";
+    returnBtn.onclick = () => {
+      book.status = "Available";
+      renderBooks();
+      updateSummary();
+    };
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.className = "delete";
+    deleteBtn.onclick = () => {
+      books.splice(index, 1);
+      renderBooks();
+      updateSummary();
+    };
+
+    card.appendChild(borrowBtn);
+    card.appendChild(returnBtn);
+    card.appendChild(deleteBtn);
+    list.appendChild(card);
+  });
+}
+
+// Modal handling
+document.getElementById("addBookBtn").onclick = () => {
+  document.getElementById("modal").style.display = "block";
+};
+document.get
