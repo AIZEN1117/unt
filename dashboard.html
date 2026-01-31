@@ -7,16 +7,43 @@
 </head>
 <body class="dashboard-bg">
   <div class="dashboard-container">
-    <img src="https://cdn.pixabay.com/photo/2015/09/05/21/51/library-925545_1280.jpg" alt="Library Banner" class="banner">
-    <h2>Welcome to Library Dashboard</h2>
-    <form id="bookForm">
-      <input type="text" id="bookTitle" placeholder="Book Title" required>
-      <input type="text" id="bookAuthor" placeholder="Book Author" required>
-      <button type="submit">Add Book</button>
-    </form>
-    <h3>Books List</h3>
-    <ul id="bookList"></ul>
+    <h2>📘 Library Catalog</h2>
+
+    <!-- Summary Bar -->
+    <div class="summary">
+      <span id="total">Total: 0</span>
+      <span id="available">Available: 0</span>
+      <span id="borrowed">Borrowed: 0</span>
+    </div>
+
+    <!-- Search + Add Book -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by title, author, or ISBN">
+      <select id="filter">
+        <option value="all">All</option>
+        <option value="available">Available</option>
+        <option value="borrowed">Borrowed</option>
+      </select>
+      <button id="addBookBtn">+ Add Book</button>
+    </div>
+
+    <!-- Book List -->
+    <div id="bookList"></div>
   </div>
+
+  <!-- Add Book Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h3>Add Book</h3>
+      <input type="text" id="bookTitle" placeholder="Title" required>
+      <input type="text" id="bookAuthor" placeholder="Author" required>
+      <input type="text" id="bookISBN" placeholder="ISBN" required>
+      <input type="text" id="bookYear" placeholder="Year" required>
+      <button id="saveBook">Save</button>
+      <button id="closeModal">Cancel</button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
