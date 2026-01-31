@@ -65,8 +65,4 @@ function renderBooks() {
       updateSummary();
     };
 
-    const returnBtn = document.createElement("button");
-    returnBtn.textContent = "Return";
-    returnBtn.className = "return";
-    returnBtn.onclick = () => {
-      book.status
+    const returnBtn = document.createElement("button
