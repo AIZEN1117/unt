@@ -1,3 +1,22 @@
+// LOGIN FUNCTION
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("loginForm");
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === "admin" && password === "1234") {
+        window.location.href = "dashboard.html";
+      } else {
+        alert("Invalid credentials! Try admin / 1234");
+      }
+    });
+  }
+});
+
+// SAMPLE BOOKS
 let books = [
   { title: "The Great Gatsby", author: "F. Scott Fitzgerald", isbn: "9780743273565", year: "1925", status: "Available" },
   { title: "1984", author: "George Orwell", isbn: "9780451524935", year: "1949", status: "Available" },
@@ -14,6 +33,7 @@ function updateSummary() {
 
 function renderBooks() {
   const list = document.getElementById("bookList");
+  if (!list) return;
   list.innerHTML = "";
   const filter = document.getElementById("filter").value;
   const search = document.getElementById("searchInput").value.toLowerCase();
@@ -49,29 +69,4 @@ function renderBooks() {
     returnBtn.textContent = "Return";
     returnBtn.className = "return";
     returnBtn.onclick = () => {
-      book.status = "Available";
-      renderBooks();
-      updateSummary();
-    };
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.className = "delete";
-    deleteBtn.onclick = () => {
-      books.splice(index, 1);
-      renderBooks();
-      updateSummary();
-    };
-
-    card.appendChild(borrowBtn);
-    card.appendChild(returnBtn);
-    card.appendChild(deleteBtn);
-    list.appendChild(card);
-  });
-}
-
-// Modal handling
-document.getElementById("addBookBtn").onclick = () => {
-  document.getElementById("modal").style.display = "block";
-};
-document.get
+      book.status
